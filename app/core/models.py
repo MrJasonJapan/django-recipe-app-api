@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
+    PermissionsMixin
 
 
 class UserManager(BaseUserManager):
@@ -14,10 +15,21 @@ class UserManager(BaseUserManager):
 
         return user
 
+    # This function will only be used from the command line.
+    # Therefore we don't need **extra_fields here.
+    def create_superuser(self, email, password):
+        # Creates and saves a new superuser
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
 
-# Create our User Model based on the Django BaseUser, and override some attributes
+        return user
+
+
 class User(AbstractBaseUser, PermissionsMixin):
-    # Custom user model that supports using email instead of username
+    # Create User Model based on the Django BaseUser, and override attributes
+    # -> Custom user model that supports using email instead of username
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
