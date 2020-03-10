@@ -4,12 +4,15 @@ services:
   app:
     build:
       context: .
+    container_name: recipe-app-api
     ports:
       - '8000:8000'
     volumes:
       - ./app:/app
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=app
@@ -20,9 +23,9 @@ services:
 
   db:
     image: postgres:10-alpine
-    # container_name: mysql_host
+    container_name: postgres_host
     environment:
-      - POSTGRES_DB= app
+      - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=supersecretpassword
     # image: mysql:5.7
