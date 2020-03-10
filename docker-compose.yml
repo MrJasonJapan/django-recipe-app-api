@@ -10,3 +10,33 @@ services:
       - ./app:/app
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+    depends_on:
+      - db
+
+  db:
+    image: postgres:10-alpine
+    # container_name: mysql_host
+    environment:
+      - POSTGRES_DB= app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+    # image: mysql:5.7
+    # # container_name: mysql_host
+    # environment:
+    #   - MYSQL_ROOT_PASSWORD: root
+    #   - MYSQL_DATABASE: recipeApi
+    #   - MYSQL_USER: recipe
+    #   - MYSQL_PASSWORD: recipe
+    # #   TZ: 'UTC'
+    # # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    # # volumes:
+    # #   - ./db/data:/var/lib/mysql
+    # #   - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    # #   - ./db/entry_point:/docker-entrypoint-initdb.d
+    # # ports:
+    # #   - 3306:3306
