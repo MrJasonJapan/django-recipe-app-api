@@ -42,5 +42,5 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
-# Resgister the UserAdmin class to the User model.
+"""  Resgister the UserAdmin class to the User model. """
 admin.site.register(models.User, UserAdmin)
