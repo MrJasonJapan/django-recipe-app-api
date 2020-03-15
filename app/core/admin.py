@@ -44,3 +44,5 @@ class UserAdmin(BaseUserAdmin):
 
 """  Resgister the UserAdmin class to the User model. """
 admin.site.register(models.User, UserAdmin)
+"""Do a "default-devel" (basic RUD only) Register for Tag model."""
+admin.site.register(models.Tag)
